@@ -10,8 +10,8 @@ part 'session_state.dart';
 part 'session_cubit.freezed.dart';
 
 class SessionCubit extends Cubit<SessionState> {
-  SessionCubit({required SupabaseClient supabase})
-    : _supabase = supabase,
+  SessionCubit({required SupabaseClient client})
+    : _supabase = client,
       super(const SessionState()) {
     _init();
   }
