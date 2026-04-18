@@ -9,5 +9,5 @@ class Profile {
   final String id;
   final String fullName;
   final String? avatarUrl;
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 }

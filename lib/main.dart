@@ -1,7 +1,7 @@
 import 'package:fire_ping/config/router/app_router.dart';
-import 'package:fire_ping/core/blocs/session/session_cubit.dart';
 import 'package:fire_ping/core/shared/constants/app_constants.dart';
 import 'package:fire_ping/di.dart';
+import 'package:fire_ping/features/auth/presentation/blocs/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -22,9 +22,12 @@ Future<void> main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => sl<SessionCubit>()),
+        BlocProvider(
+          create: (context) =>
+              sl<AuthBloc>()..add(const AuthEvent.started()),
+        ),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }

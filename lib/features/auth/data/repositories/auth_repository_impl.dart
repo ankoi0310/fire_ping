@@ -7,7 +7,6 @@ import 'package:fire_ping/features/auth/domain/repositories/auth_repository.dart
 import 'package:fire_ping/features/auth/domain/usecases/sign_in_with_email_password_use_case.dart';
 import 'package:fire_ping/features/auth/domain/usecases/sign_up_with_email_password_use_case.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   const AuthRepositoryImpl({required this.remoteDataSource});
@@ -22,9 +21,9 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await remoteDataSource.signUpWithEmailPassword(
         params,
       );
-      return right(user);
+      return Right(user);
     } on ServerException catch (e) {
-      return left(ServerFailure(e.message));
+      return Left(ServerFailure(e.message));
     }
   }
 
@@ -36,9 +35,15 @@ class AuthRepositoryImpl implements AuthRepository {
       final user = await remoteDataSource.signInWithEmailPassword(
         params,
       );
-      return right(user);
+      return Right(user);
     } on ServerException catch (e) {
-      return left(ServerFailure(e.message));
+      return Left(ServerFailure(e.message));
     }
+  }
+
+  @override
+  VoidFuture signOut() async {
+    await remoteDataSource.signOut();
+    return const Right(unit);
   }
 }

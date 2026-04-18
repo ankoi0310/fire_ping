@@ -1,14 +1,15 @@
-import 'package:fire_ping/core/blocs/session/session_cubit.dart';
 import 'package:fire_ping/core/services/supabase_storage_service.dart';
 import 'package:fire_ping/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:fire_ping/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:fire_ping/features/auth/domain/repositories/auth_repository.dart';
 import 'package:fire_ping/features/auth/domain/usecases/sign_in_with_email_password_use_case.dart';
+import 'package:fire_ping/features/auth/domain/usecases/sign_out_use_case.dart';
 import 'package:fire_ping/features/auth/domain/usecases/sign_up_with_email_password_use_case.dart';
 import 'package:fire_ping/features/auth/presentation/blocs/auth_bloc.dart';
 import 'package:fire_ping/features/user/data/datasources/user_remote_data_source.dart';
 import 'package:fire_ping/features/user/data/repositories/user_repository_impl.dart';
 import 'package:fire_ping/features/user/domain/repositories/user_repository.dart';
+import 'package:fire_ping/features/user/domain/usecases/get_profile_use_case.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -19,8 +20,7 @@ Future<void> initInjection() async {
     ..registerLazySingleton(() => Supabase.instance.client)
     ..registerLazySingleton<SupabaseStorageService>(
       () => SupabaseStorageServiceImpl(client: sl()),
-    )
-    ..registerLazySingleton(() => SessionCubit(client: sl()));
+    );
 
   _initAuth(sl);
   _initUser(sl);
@@ -40,10 +40,14 @@ void _initAuth(GetIt sl) {
     ..registerLazySingleton(
       () => SignInWithEmailPasswordUseCase(repository: sl()),
     )
-    ..registerFactory(
+    ..registerLazySingleton(() => SignOutUseCase(repository: sl()))
+    ..registerLazySingleton(
       () => AuthBloc(
+        client: sl(),
+        getProfile: sl(),
         signUpWithEmailPassword: sl(),
         signInWithEmailPassword: sl(),
+        signOut: sl(),
       ),
     );
 }
@@ -55,5 +59,8 @@ void _initUser(GetIt serviceLocator) {
     )
     ..registerLazySingleton<UserRepository>(
       () => UserRepositoryImpl(remoteDataSource: sl()),
+    )
+    ..registerLazySingleton(
+      () => GetProfileUseCase(repository: sl()),
     );
 }

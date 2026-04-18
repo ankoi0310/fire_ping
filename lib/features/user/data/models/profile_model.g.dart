@@ -11,7 +11,9 @@ _ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       fullName: json['full_name'] as String,
       avatarUrl: json['avatar_url'] as String?,
-      updatedAt: DateTime.parse(json['updated_at'] as String),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
     );
 
 Map<String, dynamic> _$ProfileModelToJson(_ProfileModel instance) =>
@@ -19,5 +21,5 @@ Map<String, dynamic> _$ProfileModelToJson(_ProfileModel instance) =>
       'id': instance.id,
       'full_name': instance.fullName,
       'avatar_url': instance.avatarUrl,
-      'updated_at': instance.updatedAt.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
     };

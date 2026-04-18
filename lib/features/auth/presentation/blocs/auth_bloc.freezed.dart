@@ -55,13 +55,14 @@ extension AuthEventPatterns on AuthEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _SignUpWithEmailPassword value)?  signUpWithEmailPassword,TResult Function( _SignInWithEmailPassword value)?  signInWithEmailPassword,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _SignUpWithEmailPassword value)?  signUpWithEmailPassword,TResult Function( _SignInWithEmailPassword value)?  signInWithEmailPassword,TResult Function( _SignOut value)?  signOut,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started(_that);case _SignUpWithEmailPassword() when signUpWithEmailPassword != null:
 return signUpWithEmailPassword(_that);case _SignInWithEmailPassword() when signInWithEmailPassword != null:
-return signInWithEmailPassword(_that);case _:
+return signInWithEmailPassword(_that);case _SignOut() when signOut != null:
+return signOut(_that);case _:
   return orElse();
 
 }
@@ -79,13 +80,14 @@ return signInWithEmailPassword(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _SignUpWithEmailPassword value)  signUpWithEmailPassword,required TResult Function( _SignInWithEmailPassword value)  signInWithEmailPassword,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _SignUpWithEmailPassword value)  signUpWithEmailPassword,required TResult Function( _SignInWithEmailPassword value)  signInWithEmailPassword,required TResult Function( _SignOut value)  signOut,}){
 final _that = this;
 switch (_that) {
 case _Started():
 return started(_that);case _SignUpWithEmailPassword():
 return signUpWithEmailPassword(_that);case _SignInWithEmailPassword():
-return signInWithEmailPassword(_that);case _:
+return signInWithEmailPassword(_that);case _SignOut():
+return signOut(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -102,13 +104,14 @@ return signInWithEmailPassword(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _SignUpWithEmailPassword value)?  signUpWithEmailPassword,TResult? Function( _SignInWithEmailPassword value)?  signInWithEmailPassword,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _SignUpWithEmailPassword value)?  signUpWithEmailPassword,TResult? Function( _SignInWithEmailPassword value)?  signInWithEmailPassword,TResult? Function( _SignOut value)?  signOut,}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started(_that);case _SignUpWithEmailPassword() when signUpWithEmailPassword != null:
 return signUpWithEmailPassword(_that);case _SignInWithEmailPassword() when signInWithEmailPassword != null:
-return signInWithEmailPassword(_that);case _:
+return signInWithEmailPassword(_that);case _SignOut() when signOut != null:
+return signOut(_that);case _:
   return null;
 
 }
@@ -125,12 +128,13 @@ return signInWithEmailPassword(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( String fullName,  String email,  String password,  File? avatarFile)?  signUpWithEmailPassword,TResult Function( String email,  String password)?  signInWithEmailPassword,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( String fullName,  String email,  String password,  File? avatarFile)?  signUpWithEmailPassword,TResult Function( String email,  String password)?  signInWithEmailPassword,TResult Function()?  signOut,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _SignUpWithEmailPassword() when signUpWithEmailPassword != null:
 return signUpWithEmailPassword(_that.fullName,_that.email,_that.password,_that.avatarFile);case _SignInWithEmailPassword() when signInWithEmailPassword != null:
-return signInWithEmailPassword(_that.email,_that.password);case _:
+return signInWithEmailPassword(_that.email,_that.password);case _SignOut() when signOut != null:
+return signOut();case _:
   return orElse();
 
 }
@@ -148,12 +152,13 @@ return signInWithEmailPassword(_that.email,_that.password);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( String fullName,  String email,  String password,  File? avatarFile)  signUpWithEmailPassword,required TResult Function( String email,  String password)  signInWithEmailPassword,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( String fullName,  String email,  String password,  File? avatarFile)  signUpWithEmailPassword,required TResult Function( String email,  String password)  signInWithEmailPassword,required TResult Function()  signOut,}) {final _that = this;
 switch (_that) {
 case _Started():
 return started();case _SignUpWithEmailPassword():
 return signUpWithEmailPassword(_that.fullName,_that.email,_that.password,_that.avatarFile);case _SignInWithEmailPassword():
-return signInWithEmailPassword(_that.email,_that.password);case _:
+return signInWithEmailPassword(_that.email,_that.password);case _SignOut():
+return signOut();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -170,12 +175,13 @@ return signInWithEmailPassword(_that.email,_that.password);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( String fullName,  String email,  String password,  File? avatarFile)?  signUpWithEmailPassword,TResult? Function( String email,  String password)?  signInWithEmailPassword,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( String fullName,  String email,  String password,  File? avatarFile)?  signUpWithEmailPassword,TResult? Function( String email,  String password)?  signInWithEmailPassword,TResult? Function()?  signOut,}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _SignUpWithEmailPassword() when signUpWithEmailPassword != null:
 return signUpWithEmailPassword(_that.fullName,_that.email,_that.password,_that.avatarFile);case _SignInWithEmailPassword() when signInWithEmailPassword != null:
-return signInWithEmailPassword(_that.email,_that.password);case _:
+return signInWithEmailPassword(_that.email,_that.password);case _SignOut() when signOut != null:
+return signOut();case _:
   return null;
 
 }
@@ -356,6 +362,38 @@ as String,
 }
 
 /// @nodoc
+
+
+class _SignOut implements AuthEvent {
+  const _SignOut();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SignOut);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AuthEvent.signOut()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
 mixin _$AuthState {
 
 
@@ -399,13 +437,14 @@ extension AuthStatePatterns on AuthState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( _Success value)?  success,TResult Function( _Failure value)?  failure,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( _Authenticated value)?  authenticated,TResult Function( _Unauthenticated value)?  unauthenticated,TResult Function( _Failure value)?  failure,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case _Loading() when loading != null:
-return loading(_that);case _Success() when success != null:
-return success(_that);case _Failure() when failure != null:
+return loading(_that);case _Authenticated() when authenticated != null:
+return authenticated(_that);case _Unauthenticated() when unauthenticated != null:
+return unauthenticated(_that);case _Failure() when failure != null:
 return failure(_that);case _:
   return orElse();
 
@@ -424,13 +463,14 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( _Success value)  success,required TResult Function( _Failure value)  failure,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( _Authenticated value)  authenticated,required TResult Function( _Unauthenticated value)  unauthenticated,required TResult Function( _Failure value)  failure,}){
 final _that = this;
 switch (_that) {
 case _Initial():
 return initial(_that);case _Loading():
-return loading(_that);case _Success():
-return success(_that);case _Failure():
+return loading(_that);case _Authenticated():
+return authenticated(_that);case _Unauthenticated():
+return unauthenticated(_that);case _Failure():
 return failure(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -448,13 +488,14 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( _Success value)?  success,TResult? Function( _Failure value)?  failure,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( _Authenticated value)?  authenticated,TResult? Function( _Unauthenticated value)?  unauthenticated,TResult? Function( _Failure value)?  failure,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case _Loading() when loading != null:
-return loading(_that);case _Success() when success != null:
-return success(_that);case _Failure() when failure != null:
+return loading(_that);case _Authenticated() when authenticated != null:
+return authenticated(_that);case _Unauthenticated() when unauthenticated != null:
+return unauthenticated(_that);case _Failure() when failure != null:
 return failure(_that);case _:
   return null;
 
@@ -472,12 +513,13 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( AppUser appUser)?  success,TResult Function( String message)?  failure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( AppUser appUser)?  authenticated,TResult Function()?  unauthenticated,TResult Function( String message)?  failure,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
-return loading();case _Success() when success != null:
-return success(_that.appUser);case _Failure() when failure != null:
+return loading();case _Authenticated() when authenticated != null:
+return authenticated(_that.appUser);case _Unauthenticated() when unauthenticated != null:
+return unauthenticated();case _Failure() when failure != null:
 return failure(_that.message);case _:
   return orElse();
 
@@ -496,12 +538,13 @@ return failure(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( AppUser appUser)  success,required TResult Function( String message)  failure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( AppUser appUser)  authenticated,required TResult Function()  unauthenticated,required TResult Function( String message)  failure,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
-return loading();case _Success():
-return success(_that.appUser);case _Failure():
+return loading();case _Authenticated():
+return authenticated(_that.appUser);case _Unauthenticated():
+return unauthenticated();case _Failure():
 return failure(_that.message);case _:
   throw StateError('Unexpected subclass');
 
@@ -519,12 +562,13 @@ return failure(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( AppUser appUser)?  success,TResult? Function( String message)?  failure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( AppUser appUser)?  authenticated,TResult? Function()?  unauthenticated,TResult? Function( String message)?  failure,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
-return loading();case _Success() when success != null:
-return success(_that.appUser);case _Failure() when failure != null:
+return loading();case _Authenticated() when authenticated != null:
+return authenticated(_that.appUser);case _Unauthenticated() when unauthenticated != null:
+return unauthenticated();case _Failure() when failure != null:
 return failure(_that.message);case _:
   return null;
 
@@ -600,8 +644,8 @@ String toString() {
 /// @nodoc
 
 
-class _Success implements AuthState {
-  const _Success(this.appUser);
+class _Authenticated implements AuthState {
+  const _Authenticated(this.appUser);
   
 
  final  AppUser appUser;
@@ -610,13 +654,13 @@ class _Success implements AuthState {
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$SuccessCopyWith<_Success> get copyWith => __$SuccessCopyWithImpl<_Success>(this, _$identity);
+_$AuthenticatedCopyWith<_Authenticated> get copyWith => __$AuthenticatedCopyWithImpl<_Authenticated>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Success&&(identical(other.appUser, appUser) || other.appUser == appUser));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Authenticated&&(identical(other.appUser, appUser) || other.appUser == appUser));
 }
 
 
@@ -625,15 +669,15 @@ int get hashCode => Object.hash(runtimeType,appUser);
 
 @override
 String toString() {
-  return 'AuthState.success(appUser: $appUser)';
+  return 'AuthState.authenticated(appUser: $appUser)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$SuccessCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
-  factory _$SuccessCopyWith(_Success value, $Res Function(_Success) _then) = __$SuccessCopyWithImpl;
+abstract mixin class _$AuthenticatedCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
+  factory _$AuthenticatedCopyWith(_Authenticated value, $Res Function(_Authenticated) _then) = __$AuthenticatedCopyWithImpl;
 @useResult
 $Res call({
  AppUser appUser
@@ -644,17 +688,17 @@ $AppUserCopyWith<$Res> get appUser;
 
 }
 /// @nodoc
-class __$SuccessCopyWithImpl<$Res>
-    implements _$SuccessCopyWith<$Res> {
-  __$SuccessCopyWithImpl(this._self, this._then);
+class __$AuthenticatedCopyWithImpl<$Res>
+    implements _$AuthenticatedCopyWith<$Res> {
+  __$AuthenticatedCopyWithImpl(this._self, this._then);
 
-  final _Success _self;
-  final $Res Function(_Success) _then;
+  final _Authenticated _self;
+  final $Res Function(_Authenticated) _then;
 
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? appUser = null,}) {
-  return _then(_Success(
+  return _then(_Authenticated(
 null == appUser ? _self.appUser : appUser // ignore: cast_nullable_to_non_nullable
 as AppUser,
   ));
@@ -671,6 +715,38 @@ $AppUserCopyWith<$Res> get appUser {
   });
 }
 }
+
+/// @nodoc
+
+
+class _Unauthenticated implements AuthState {
+  const _Unauthenticated();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Unauthenticated);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AuthState.unauthenticated()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 

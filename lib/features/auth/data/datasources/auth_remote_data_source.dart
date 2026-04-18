@@ -17,6 +17,8 @@ abstract class AuthRemoteDataSource {
   Future<AppUser> signInWithEmailPassword(
     SignInWithEmailPasswordParams params,
   );
+
+  Future<void> signOut();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -101,5 +103,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final errorMapper = AuthErrorMapper.map(e);
       throw ServerException(errorMapper.message);
     }
+  }
+
+  @override
+  Future<void> signOut() async {
+    await client.auth.signOut();
   }
 }

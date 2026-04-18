@@ -1,16 +1,16 @@
 import 'dart:async';
 
-import 'package:fire_ping/core/blocs/session/session_cubit.dart';
+import 'package:fire_ping/features/auth/presentation/blocs/auth_bloc.dart';
 import 'package:flutter/material.dart';
 
 class SessionListenable extends ChangeNotifier {
-  SessionListenable(Stream<SessionState> stream) {
+  SessionListenable(Stream<AuthState> stream) {
     _subscription = stream.listen((_) {
       notifyListeners();
     });
   }
 
-  late final StreamSubscription<SessionState> _subscription;
+  late final StreamSubscription<AuthState> _subscription;
 
   @override
   Future<void> dispose() async {

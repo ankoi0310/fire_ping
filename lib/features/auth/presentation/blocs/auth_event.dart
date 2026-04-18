@@ -15,4 +15,6 @@ class AuthEvent with _$AuthEvent {
     required String email,
     required String password,
   }) = _SignInWithEmailPassword;
+
+  const factory AuthEvent.signOut() = _SignOut;
 }

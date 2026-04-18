@@ -10,7 +10,7 @@ abstract class ProfileModel with _$ProfileModel {
     required String id,
     @JsonKey(name: 'full_name') required String fullName,
     @JsonKey(name: 'avatar_url') required String? avatarUrl,
-    @JsonKey(name: 'updated_at') required DateTime updatedAt,
+    @JsonKey(name: 'updated_at') required DateTime? updatedAt,
   }) = _ProfileModel;
 
   factory ProfileModel.fromJson(JsonData json) =>

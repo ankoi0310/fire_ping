@@ -11,4 +11,6 @@ abstract class AuthRepository {
   ResultFuture<AppUser> signInWithEmailPassword(
     SignInWithEmailPasswordParams params,
   );
+
+  VoidFuture signOut();
 }
