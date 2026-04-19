@@ -6,6 +6,13 @@ import 'package:fire_ping/features/auth/domain/usecases/sign_in_with_email_passw
 import 'package:fire_ping/features/auth/domain/usecases/sign_out_use_case.dart';
 import 'package:fire_ping/features/auth/domain/usecases/sign_up_with_email_password_use_case.dart';
 import 'package:fire_ping/features/auth/presentation/blocs/auth_bloc.dart';
+import 'package:fire_ping/features/fire_station/data/datasources/fire_station_remote_data_source.dart';
+import 'package:fire_ping/features/fire_station/data/repositories/fire_station_repository_impl.dart';
+import 'package:fire_ping/features/fire_station/domain/repositories/fire_station_repository.dart';
+import 'package:fire_ping/features/fire_station/domain/usecases/find_nearest_fire_station_use_case.dart';
+import 'package:fire_ping/features/fire_station/domain/usecases/get_fire_stations_use_case.dart';
+import 'package:fire_ping/features/fire_station/presentation/blocs/fire_station_bloc.dart';
+import 'package:fire_ping/features/fire_station/presentation/blocs/nearest_fire_station_bloc.dart';
 import 'package:fire_ping/features/user/data/datasources/user_remote_data_source.dart';
 import 'package:fire_ping/features/user/data/repositories/user_repository_impl.dart';
 import 'package:fire_ping/features/user/domain/repositories/user_repository.dart';
@@ -24,6 +31,7 @@ Future<void> initInjection() async {
 
   _initAuth(sl);
   _initUser(sl);
+  _initFireStation(sl);
 }
 
 void _initAuth(GetIt sl) {
@@ -62,5 +70,27 @@ void _initUser(GetIt serviceLocator) {
     )
     ..registerLazySingleton(
       () => GetProfileUseCase(repository: sl()),
+    );
+}
+
+void _initFireStation(GetIt sl) {
+  sl
+    ..registerLazySingleton<FireStationRemoteDataSource>(
+      () => FireStationRemoteDataSourceImpl(client: sl()),
+    )
+    ..registerLazySingleton<FireStationRepository>(
+      () => FireStationRepositoryImpl(remoteDataSource: sl()),
+    )
+    ..registerLazySingleton(
+      () => GetFireStationsUseCase(repository: sl()),
+    )
+    ..registerLazySingleton(
+      () => FindNearestFireStationUseCase(repository: sl()),
+    )
+    ..registerLazySingleton(
+      () => FireStationBloc(getFireStations: sl()),
+    )
+    ..registerLazySingleton(
+      () => NearestFireStationBloc(findNearestFireStation: sl()),
     );
 }
