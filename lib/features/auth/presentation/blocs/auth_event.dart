@@ -2,7 +2,7 @@ part of 'auth_bloc.dart';
 
 @freezed
 class AuthEvent with _$AuthEvent {
-  const factory AuthEvent.started() = _Started;
+  const factory AuthEvent.initialize() = _Initialize;
 
   const factory AuthEvent.signUpWithEmailPassword({
     required String fullName,
@@ -17,4 +17,8 @@ class AuthEvent with _$AuthEvent {
   }) = _SignInWithEmailPassword;
 
   const factory AuthEvent.signOut() = _SignOut;
+
+  const factory AuthEvent.authStateChanged(
+    supabase.AuthState authState,
+  ) = _AuthStateChanged;
 }

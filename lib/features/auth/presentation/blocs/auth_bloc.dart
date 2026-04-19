@@ -8,7 +8,7 @@ import 'package:fire_ping/features/auth/domain/usecases/sign_up_with_email_passw
 import 'package:fire_ping/features/user/domain/usecases/get_profile_use_case.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 part 'auth_event.dart';
 
@@ -18,7 +18,7 @@ part 'auth_bloc.freezed.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
-    required SupabaseClient client,
+    required supabase.SupabaseClient client,
     required GetProfileUseCase getProfile,
     required SignInWithEmailPasswordUseCase signInWithEmailPassword,
     required SignUpWithEmailPasswordUseCase signUpWithEmailPassword,
@@ -29,13 +29,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
        _signUpWithEmailPassword = signUpWithEmailPassword,
        _signOut = signOut,
        super(const AuthState.initial()) {
-    on<_Started>(_onStarted);
+    on<_Initialize>(_onInitialize);
     on<_SignUpWithEmailPassword>(_onSignUpWithEmailPassword);
     on<_SignInWithEmailPassword>(_onSignInWithEmailPassword);
     on<_SignOut>(_onSignOut);
+    on<_AuthStateChanged>(_onAuthStateChanged);
+
+    add(const AuthEvent.initialize());
+    _authStateSubscription = _client.auth.onAuthStateChange.listen(
+      (authState) => add(AuthEvent.authStateChanged(authState)),
+    );
   }
 
-  final SupabaseClient _client;
+  final supabase.SupabaseClient _client;
   final GetProfileUseCase _getProfile;
   final SignUpWithEmailPasswordUseCase _signUpWithEmailPassword;
 
@@ -43,8 +49,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   final SignOutUseCase _signOut;
 
-  Future<void> _onStarted(
-    _Started event,
+  late final StreamSubscription<supabase.AuthState>
+  _authStateSubscription;
+
+  Future<void> _onInitialize(
+    _Initialize event,
     Emitter<AuthState> emit,
   ) async {
     final session = _client.auth.currentSession;
@@ -118,7 +127,41 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     result.fold(
       (failure) => emit(AuthState.failure(failure.message)),
-      (_) => emit(const AuthState.initial()),
+      (_) => emit(const AuthState.unauthenticated()),
     );
+  }
+
+  Future<void> _onAuthStateChanged(
+    _AuthStateChanged event,
+    Emitter<AuthState> emit,
+  ) async {
+    final authState = event.authState;
+    if (authState.event == supabase.AuthChangeEvent.signedIn) {
+      try {
+        final result = await _getProfile();
+
+        result.fold(
+          (failure) => emit(const AuthState.unauthenticated()),
+          (profile) {
+            final appUser = AppUser(
+              user: authState.session!.user,
+              profile: profile,
+            );
+            emit(AuthState.authenticated(appUser));
+          },
+        );
+      } catch (e) {
+        emit(const AuthState.unauthenticated());
+      }
+    } else if (authState.event ==
+        supabase.AuthChangeEvent.signedOut) {
+      emit(const AuthState.unauthenticated());
+    }
+  }
+
+  @override
+  Future<void> close() async {
+    await _authStateSubscription.cancel();
+    return super.close();
   }
 }

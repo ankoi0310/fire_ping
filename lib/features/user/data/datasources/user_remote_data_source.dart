@@ -2,7 +2,7 @@ import 'package:fire_ping/core/error/auth_error_mapper.dart';
 import 'package:fire_ping/core/error/exceptions.dart';
 import 'package:fire_ping/features/user/data/models/profile_model.dart';
 import 'package:fire_ping/features/user/domain/usecases/change_password_use_case.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 abstract class UserRemoteDataSource {
   Future<ProfileModel> getProfile();
@@ -12,7 +12,7 @@ abstract class UserRemoteDataSource {
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   const UserRemoteDataSourceImpl({required this.client});
 
-  final SupabaseClient client;
+  final supabase.SupabaseClient client;
 
   @override
   Future<ProfileModel> getProfile() async {
@@ -31,15 +31,11 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       throw const ServerException('Người dùng chưa đăng nhập');
     }
 
-    // print(session.user.role);
-    // print(session.user.appMetadata);
-    // print(session.user.userMetadata);
-
     try {
       await client.auth.updateUser(
-        UserAttributes(password: params.newPassword),
+        supabase.UserAttributes(password: params.newPassword),
       );
-    } on AuthException catch (e) {
+    } on supabase.AuthException catch (e) {
       final errorMapper = AuthErrorMapper.map(e);
       throw ServerException(errorMapper.message);
     }

@@ -1,5 +1,6 @@
 import 'package:fire_ping/config/navigation/nav_items.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 TextTheme createTextTheme(
@@ -57,4 +58,33 @@ int getIndexFromLocation(String location) {
   );
 
   return index == -1 ? 0 : index;
+}
+
+Future<Position> getCurrentLocation() async {
+  // Kiểm tra GPS có bật không
+  final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    throw Exception('GPS chưa bật');
+  }
+
+  // Kiểm tra quyền
+  var permission = await Geolocator.checkPermission();
+
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      throw Exception('Bạn đã từ chối quyền vị trí');
+    }
+  }
+
+  if (permission == LocationPermission.deniedForever) {
+    throw Exception('Quyền vị trí bị từ chối vĩnh viễn');
+  }
+
+  // Lấy vị trí
+  return Geolocator.getCurrentPosition(
+    locationSettings: const LocationSettings(
+      accuracy: LocationAccuracy.high,
+    ),
+  );
 }

@@ -2,6 +2,9 @@ import 'package:fire_ping/config/router/app_router.dart';
 import 'package:fire_ping/core/shared/constants/app_constants.dart';
 import 'package:fire_ping/di.dart';
 import 'package:fire_ping/features/auth/presentation/blocs/auth_bloc.dart';
+import 'package:fire_ping/features/fire_station/presentation/blocs/fire_station_bloc.dart';
+import 'package:fire_ping/features/fire_station/presentation/blocs/nearest_fire_station_bloc.dart';
+import 'package:fire_ping/features/station_member/presentation/blocs/station_member_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -22,10 +25,12 @@ Future<void> main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => sl<AuthBloc>()),
+        BlocProvider(create: (context) => sl<FireStationBloc>()),
         BlocProvider(
-          create: (context) =>
-              sl<AuthBloc>()..add(const AuthEvent.started()),
+          create: (context) => sl<NearestFireStationBloc>(),
         ),
+        BlocProvider(create: (context) => sl<StationMemberBloc>()),
       ],
       child: const MyApp(),
     ),
